@@ -2,7 +2,7 @@ services:
   telemt:
     image: ghcr.io/admin8800/telemt
     container_name: telemt
-    restart: unless-stopped
+    restart: always
     working_dir: /run/telemt
     ports:
       - "443:443"
