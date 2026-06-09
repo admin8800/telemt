@@ -28,7 +28,7 @@ docker exec -it telemt sh -c 'cat /run/telemt/config.toml'
 ```
 curl -fsSL https://raw.githubusercontent.com/admin8800/telemt/main/install.sh | sh
 ```
-带参数
+可带参数
 ```
 # 指定域名和端口
 curl -fsSL https://raw.githubusercontent.com/admin8800/telemt/main/install.sh | sudo sh -s -- install -d www.bing.com -p 8443
