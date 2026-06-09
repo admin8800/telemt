@@ -1,0 +1,33 @@
+name: 同步 telemt 最新 Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 若 Release 已存在，是否强制重新发布
+        required: false
+        default: true
+        type: boolean
+      source_repo:
+        description: 源仓库 (owner/repo)
+        required: false
+        default: telemt/telemt
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  sync-release:
+    name: 同步最新 Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 同步 telemt 最新 Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_REPO: ${{ inputs.source_repo }}
+          FORCE: ${{ inputs.force }}
+        run: bash .github/scripts/sync-telemt-release.sh
