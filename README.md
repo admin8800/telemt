@@ -1,5 +1,4 @@
-## telemt
-TG代理
+## TG代理最新rust版
 
 ```
 docker run -d \
@@ -55,3 +54,7 @@ curl -fsSL https://raw.githubusercontent.com/admin8800/telemt/main/install.sh | 
 
 
 **一句话**：先去 @MTProxybot 拿 tag，再用 `-a` 传给安装脚本，最后在机器人里设置要推广的频道。
+
+---
+
+项目地址：https://github.com/telemt/telemt
