@@ -41,6 +41,24 @@ curl -fsSL https://raw.githubusercontent.com/admin8800/telemt/main/install.sh | 
 # 查看帮助
 curl -fsSL https://raw.githubusercontent.com/admin8800/telemt/main/install.sh | sh -s -- --help
 ```
+配置文件路径：`/etc/telemt/telemt.toml`，
+### 系统服务管理命令
+```
+# 查看状态
+sudo systemctl status telemt
+
+# 启动
+sudo systemctl start telemt
+
+# 停止
+sudo systemctl stop telemt
+
+# 重启（改配置后常用）
+sudo systemctl restart telemt
+
+# 查看日志（实时）
+sudo journalctl -u telemt -f
+```
 
 ## 频道推广TAG
 
