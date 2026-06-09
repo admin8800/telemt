@@ -8,7 +8,7 @@ services:
       - "443:443"
       - "127.0.0.1:9091:9091"
     environment:
-      RUST_LOG: "info"
+      RUST_LOG: "warn"
 
       # 可选：不填则自动获取公网 IPv4
       TELEMT_PUBLIC_HOST: ""
