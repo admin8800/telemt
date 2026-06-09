@@ -1,5 +1,6 @@
 ## TG代理最新rust版
 
+### Docker
 ```
 docker run -d \
   --name telemt \
@@ -23,7 +24,7 @@ doker logs telemt
 docker exec -it telemt sh -c 'cat /run/telemt/config.toml'
 ```
 
-## 一键脚本
+### 一键脚本
 ```
 curl -fsSL https://raw.githubusercontent.com/admin8800/telemt/main/install.sh | sh
 ```
@@ -61,7 +62,7 @@ sudo systemctl restart telemt
 sudo journalctl -u telemt -f
 ```
 
-## 频道推广TAG
+### 频道推广TAG
 
 1. 在 Telegram 打开 [@MTProxybot](https://t.me/MTProxybot)
 2. 发送 `/newproxy`
