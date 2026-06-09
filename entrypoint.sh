@@ -2,7 +2,9 @@
 set -eu
 
 CONFIG_TEMPLATE="/etc/telemt/config.toml.template"
-CONFIG_FILE="/run/telemt/config.toml"
+RUNTIME_DIR="/run/telemt"
+CONFIG_FILE="$RUNTIME_DIR/config.toml"
+USERS_JSON="$RUNTIME_DIR/telemt-users.json"
 API_URL="http://127.0.0.1:9091/v1/users"
 
 log() {
@@ -37,17 +39,10 @@ check_hex32_value() {
     [ "${#value}" -eq 32 ] || fail "$name 长度必须是 32 位"
 }
 
-json_escape() {
-    printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
-}
-
 log "开始初始化 Telemt"
 
-mkdir -p /run/telemt
-
-# =========================
-# 默认值
-# =========================
+mkdir -p "$RUNTIME_DIR"
+cd "$RUNTIME_DIR"
 
 TELEMT_USER="${TELEMT_USER:-admin}"
 TELEMT_TLS_DOMAIN="${TELEMT_TLS_DOMAIN:-www.bing.com}"
@@ -56,10 +51,6 @@ TELEMT_ENABLE_AD_TAG="${TELEMT_ENABLE_AD_TAG:-false}"
 
 check_bool TELEMT_ENABLE_API
 check_bool TELEMT_ENABLE_AD_TAG
-
-# =========================
-# 自动获取公网 IPv4
-# =========================
 
 if [ -z "${TELEMT_PUBLIC_HOST:-}" ]; then
     log "未配置 TELEMT_PUBLIC_HOST，正在自动获取公网 IPv4..."
@@ -78,10 +69,6 @@ else
     log "使用自定义公网地址：$TELEMT_PUBLIC_HOST"
 fi
 
-# =========================
-# 自动生成 Secret
-# =========================
-
 if [ -z "${TELEMT_SECRET:-}" ]; then
     log "未配置 TELEMT_SECRET，正在自动生成 32 位 Secret..."
 
@@ -97,19 +84,11 @@ fi
 
 check_hex32_value "TELEMT_SECRET" "$TELEMT_SECRET"
 
-# =========================
-# 校验用户名
-# =========================
-
 case "$TELEMT_USER" in
     ""|*[!A-Za-z0-9_.-]*)
         fail "TELEMT_USER 只能包含字母、数字、下划线、点和横线"
         ;;
 esac
-
-# =========================
-# TG 频道推广
-# =========================
 
 if [ "$TELEMT_ENABLE_AD_TAG" = "true" ]; then
     [ -n "${TELEMT_AD_TAG:-}" ] || fail "已启用 TG 频道推广，但 TELEMT_AD_TAG 未设置"
@@ -124,10 +103,6 @@ else
 fi
 
 API_ENABLED="$TELEMT_ENABLE_API"
-
-# =========================
-# 生成配置文件
-# =========================
 
 log "正在生成配置文件：$CONFIG_FILE"
 
@@ -157,10 +132,6 @@ fi
 
 log "=============================="
 
-# =========================
-# 启动 Telemt
-# =========================
-
 log "正在启动 Telemt..."
 
 "/app/telemt" "$CONFIG_FILE" &
@@ -168,20 +139,16 @@ telemt_pid="$!"
 
 trap 'log "收到退出信号，正在停止 Telemt"; kill "$telemt_pid" 2>/dev/null || true; wait "$telemt_pid" 2>/dev/null || true' INT TERM
 
-# =========================
-# 自动输出一键 TG 链接
-# =========================
-
 if [ "$API_ENABLED" = "true" ]; then
     log "正在等待本地 API 就绪..."
 
     i=0
     while [ "$i" -lt 30 ]; do
-        if curl -fsS "$API_URL" >/tmp/telemt-users.json 2>/dev/null; then
+        if curl -fsS "$API_URL" > "$USERS_JSON" 2>/dev/null; then
             log "本地 API 已就绪"
             log "========== TG 一键导入链接 =========="
 
-            if jq -e '.data' /tmp/telemt-users.json >/dev/null 2>&1; then
+            if jq -e '.data' "$USERS_JSON" >/dev/null 2>&1; then
                 jq -r '
                   .data[]? |
                   "用户：" + (.username // "unknown"),
@@ -193,9 +160,9 @@ if [ "$API_ENABLED" = "true" ]; then
                     end
                   ),
                   ""
-                ' /tmp/telemt-users.json
+                ' "$USERS_JSON"
             else
-                cat /tmp/telemt-users.json
+                cat "$USERS_JSON"
             fi
 
             log "===================================="
