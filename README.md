@@ -1,4 +1,4 @@
-# telemt
+## telemt
 TG代理
 
 ```
@@ -15,6 +15,11 @@ docker run -d \
   --ulimit nofile=65536:262144 \
   ghcr.io/admin8800/telemt
 ```
+查看链接信息
 ```
 doker logs telemt
+```
+查看配置文件
+```
+docker exec -it telemt sh -c 'cat /run/telemt/config.toml'
 ```
