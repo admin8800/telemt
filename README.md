@@ -15,3 +15,6 @@ docker run -d \
   --ulimit nofile=65536:262144 \
   ghcr.io/admin8800/telemt
 ```
+```
+doker logs telemt
+```
