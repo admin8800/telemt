@@ -41,7 +41,8 @@ curl -fsSL https://raw.githubusercontent.com/admin8800/telemt/main/install.sh | 
 # 查看帮助
 curl -fsSL https://raw.githubusercontent.com/admin8800/telemt/main/install.sh | sh -s -- --help
 ```
-配置文件路径：`/etc/telemt/telemt.toml`，
+配置文件路径：`/etc/telemt/telemt.toml`，使用一键脚本重复安装时，其他自定义的配置会保持不变。
+
 ### 系统服务管理命令
 ```
 # 查看状态
