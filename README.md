@@ -4,7 +4,7 @@ TG代理
 ```
 docker run -d \
   --name telemt \
-  --restart unless-stopped \
+  --restart always \
   -p 443:443 \
   -p 127.0.0.1:9091:9091 \
   --tmpfs /run/telemt:rw,mode=1777,size=4m \
