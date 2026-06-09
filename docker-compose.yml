@@ -1,0 +1,52 @@
+services:
+  telemt:
+    image: ghcr.io/admin8800/telemt
+    container_name: telemt
+    restart: unless-stopped
+    working_dir: /run/telemt
+    ports:
+      - "443:443"
+      - "127.0.0.1:9091:9091"
+    environment:
+      RUST_LOG: "info"
+
+      # 可选：不填则自动获取公网 IPv4
+      TELEMT_PUBLIC_HOST: ""
+
+      # 可选：不填默认 www.bing.com
+      TELEMT_TLS_DOMAIN: ""
+
+      # 可选：不填默认 admin
+      TELEMT_USER: ""
+
+      # 可选：不填自动生成 32 位 Secret
+      TELEMT_SECRET: ""
+
+      # 可选：默认开启 API，用于自动输出一键链接
+      TELEMT_ENABLE_API: "true"
+
+      # 可选：默认关闭 TG 频道推广
+      TELEMT_ENABLE_AD_TAG: "false"
+
+      # 开启推广时填写 32 位 ad_tag
+      TELEMT_AD_TAG: ""
+
+    tmpfs:
+      - /run/telemt:rw,mode=1777,size=4m
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 262144
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "3"
