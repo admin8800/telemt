@@ -62,6 +62,18 @@ sudo systemctl restart telemt
 sudo journalctl -u telemt -f
 ```
 
+### 代理
+
+说明：`你的设备 → telemt → 走代理 → TG服务器`
+
+```
+[[upstreams]]
+type = "socks5"
+address = "1.2.3.4:1080"
+weight = 1
+enabled = true
+```
+
 ### 频道推广TAG
 
 1. 在 Telegram 打开 [@MTProxybot](https://t.me/MTProxybot)
