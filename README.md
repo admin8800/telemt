@@ -21,8 +21,6 @@
 | Alpine | Alpine Linux | openrc | apk |
 | 其他 Linux | 具备 systemd 或 openrc 的发行版 | 自动识别 | 视环境而定 |
 
-> 若系统无 systemd / openrc，脚本仍可安装程序与配置，但需手动启动服务。
-
 ---
 
 ### CPU 架构支持说明
