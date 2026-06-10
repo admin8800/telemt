@@ -89,4 +89,6 @@ enabled = true
 
 ---
 
-项目地址：https://github.com/telemt/telemt
+### 鸣谢
+
+原项目地址：https://github.com/telemt/telemt
