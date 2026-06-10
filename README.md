@@ -1,5 +1,17 @@
 ## TG代理最新rust版
 
+### 功能特点
+
+- **Rust + Tokio**：内存安全、无 GC，单二进制部署，高并发稳定
+- **稳定性强**：支持 Classic / Secure / Fake-TLS，TLS-fronting + 流量伪装，防重放
+- **多用户**：独立 secret，IP 限制、配额、流量统计
+- **频道推广**：ad_tag + @MTProxybot 统计
+- **上游代理**：SOCKS4/5、Shadowsocks，支持权重负载
+- **运维**：REST API、配置热重载、Prometheus 监控、JA3/JA4 指纹诊断
+- **部署**：一键脚本、Docker、systemd，支持 IPv6
+- **持续更新**：活跃维护，跟进协议与网络变化
+
+
 ### 系统支持说明
 
 | 类型 | 发行版 | 服务管理 | 包管理 |
