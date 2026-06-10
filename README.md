@@ -1,6 +1,27 @@
 ## TG代理最新rust版
 
-### Docker
+### 发行版支持说明
+
+| 类型 | 发行版 | 服务管理 | 包管理 |
+|------|--------|----------|--------|
+| Debian 系 | Debian、Ubuntu 等 | systemd | apt-get |
+| RHEL 系 | CentOS、Rocky Linux、AlmaLinux 等 | systemd | yum / dnf |
+| Alpine | Alpine Linux | openrc | apk |
+| 其他 Linux | 具备 systemd 或 openrc 的发行版 | 自动识别 | 视环境而定 |
+
+> 若系统无 systemd / openrc，脚本仍可安装程序与配置，但需手动启动服务。
+
+---
+
+### CPU 架构支持说明
+
+| 架构 | 支持 | 说明 |
+|------|------|------|
+| x86_64 / amd64 | ✅ | CPU 支持 AVX2 + BMI2 时优先下载 `x86_64-v3`，失败自动回退 `x86_64` |
+| aarch64 / arm64 | ✅ | 适用于 ARM 服务器（如部分云 ARM 实例） |
+
+
+### Docker部署
 ```
 docker run -d \
   --name telemt \
@@ -24,7 +45,7 @@ doker logs telemt
 docker exec -it telemt sh -c 'cat /run/telemt/config.toml'
 ```
 
-### 一键脚本
+### 一键脚本部署
 ```
 curl -fsSL https://raw.githubusercontent.com/admin8800/telemt/main/install.sh | sh
 ```
